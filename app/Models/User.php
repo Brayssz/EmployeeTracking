@@ -45,7 +45,12 @@ class User extends Authenticatable
      * Get the department associated with the user.
      */
     public function department()
-{
-    return $this->belongsTo(Department::class, 'department_id', 'department_id');
-}
+    {
+        return $this->belongsTo(Department::class, 'department_id', 'department_id');
+    }
+
+    public function travelUsers()
+    {
+        return $this->hasMany(TravelUser::class, 'user_id');
+    }
 }

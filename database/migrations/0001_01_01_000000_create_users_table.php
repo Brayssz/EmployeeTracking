@@ -50,13 +50,26 @@ return new class extends Migration
 
         Schema::create('travels', function (Blueprint $table) {
             $table->id('travel_id');
-            $table->unsignedBigInteger('user_id');
-            $table->text('remarks')->nullable();
             $table->string('purpose');
-            $table->string('location_coordinates');
-            $table->date('travel_date');
+            $table->text('description')->nullable();
+            $table->date('start_date'); 
+            $table->date('end_date');
             $table->timestamps();
 
+        });
+
+        Schema::create('travel_users', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('travel_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('status')->default('pending');
+            $table->string('coordinates')->nullable();
+            $table->timestamp('time_recorded')->nullable();
+            $table->date('date_recorded')->nullable();
+            $table->text('remarks')->nullable();
+            $table->timestamps();
+
+            $table->foreign('travel_id')->references('travel_id')->on('travels')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

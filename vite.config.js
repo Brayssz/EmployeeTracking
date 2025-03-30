@@ -10,7 +10,8 @@ export default defineConfig({
                 'resources/css/mdb.rtl.min.css',
                 'resources/js/bootstrap.js',
                 'resources/js/mdb.es.min.js',
-                'resources/js/mdb.umd.min.js'
+                'resources/js/mdb.umd.min.js',
+                'resources/js/app.js',
             ],
             refresh: true,
         }),

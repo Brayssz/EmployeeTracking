@@ -2,21 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Travel extends Model
 {
     use HasFactory;
 
+    protected $table = 'travels';
     protected $primaryKey = 'travel_id';
-    protected $fillable = ['user_id', 'remarks', 'purpose', 'location_coordinates', 'travel_date', 'status'];
+    public $timestamps = true;
 
-    /**
-     * Get the user that owns the travel.
-     */
-    public function user()
+    protected $fillable = [
+        'purpose',
+        'description',
+        'start_date',
+        'end_date',
+    ];
+
+    public function participants()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(TravelUser::class, 'travel_id', 'travel_id');
     }
 }

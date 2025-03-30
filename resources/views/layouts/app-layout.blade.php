@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Tracking</title>
-    
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    <!-- NProgress CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
+
     @vite(['resources/css/mdb.min.css', 'resources/css/mdb.rtl.min.css'])
 
 </head>
@@ -22,8 +25,9 @@
         <!-- Container wrapper -->
         <div class="container-fluid mx-5">
             <!-- Toggle button -->
-            <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button data-mdb-collapse-init class="navbar-toggler" type="button"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
 
@@ -31,19 +35,29 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Navbar brand -->
                 <a class="navbar-brand mt-2 mt-lg-0" href="#">
-                    <img src="{{asset('img/logo.png')}}" height="40"
-                        alt="MDB Logo" loading="lazy" />
+                    <img src="{{ asset('img/logo.png') }}" height="40" alt="MDB Logo" loading="lazy" />
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link @if (Route::currentRouteName() == 'tracking') active @endif" href="tracking" aria-current="page">Tracking</a>
+                        <a class="nav-link @if (Route::currentRouteName() == 'tracking') active @endif" href="tracking"
+                            aria-current="page">Tracking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if (Route::currentRouteName() == 'users') active @endif" href="users" aria-current="page">Users</a>
+                        <a class="nav-link @if (Route::currentRouteName() == 'users') active @endif" href="users"
+                            aria-current="page">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if (Route::currentRouteName() == 'departments') active @endif" href="departments" aria-current="page">Departments</a>
+                        <a class="nav-link @if (Route::currentRouteName() == 'departments') active @endif" href="departments"
+                            aria-current="page">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (Route::currentRouteName() == 'travels') active @endif" href="travels"
+                            aria-current="page">Travels</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (Route::currentRouteName() == 'travel-users') active @endif" href="travel-users"
+                            aria-current="page">Travel Participants</a>
                     </li>
                 </ul>
                 <!-- Left links -->
@@ -52,13 +66,15 @@
 
             <!-- Right elements -->
             <div class="d-flex align-items-center">
-            
+
                 <div class="dropdown">
                     <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow"
                         href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
                         @php
                             $user = Auth::user();
-                            $initials = strtoupper(substr($user->name, 0, 1)) . strtoupper(substr(strrchr($user->name, ' '), 1, 1));
+                            $initials =
+                                strtoupper(substr($user->name, 0, 1)) .
+                                strtoupper(substr(strrchr($user->name, ' '), 1, 1));
                         @endphp
                         <div class="rounded-circle text-white d-flex justify-content-center align-items-center"
                             style="width: 32px; height: 32px; background-color: #007bff; font-weight: bold; font-size: 0.75rem;">
@@ -75,8 +91,8 @@
                         </li>
                     </ul>
                 </div>
-                
-                
+
+
             </div>
         </div>
     </nav>
@@ -92,9 +108,36 @@
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <!-- NProgress JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+
     @vite(['resources/js/bootstrap.js', 'resources/js/mdb.es.min.js', 'resources/js/mdb.umd.min.js'])
     @livewireScripts
     @stack('scripts')
+    <script>
+        $(document).ready(function () {
+            NProgress.start(); 
+            NProgress.done();
+    
+            $(window).on("load", function () {
+                NProgress.done(); 
+            });
+
+            $(document).ajaxStart(function () {
+                NProgress.start();
+            });
+
+            $(document).ajaxStop(function () {
+                NProgress.done();
+            });
+
+            setTimeout(function () {
+                if (NProgress.isStarted()) {
+                    NProgress.done();
+                }
+            }, 1000); 
+        });
+    </script>
 </body>
 
 </html>

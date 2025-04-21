@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- NProgress CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css">
 
@@ -59,6 +60,10 @@
                         <a class="nav-link @if (Route::currentRouteName() == 'travel-users') active @endif" href="travel-users"
                             aria-current="page">Travel Participants</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if (Route::currentRouteName() == 'travel-attendance') active @endif" href="travel-attendance"
+                            aria-current="page">Travel Attendance</a>
+                    </li>
                 </ul>
                 <!-- Left links -->
             </div>
@@ -91,8 +96,6 @@
                         </li>
                     </ul>
                 </div>
-
-
             </div>
         </div>
     </nav>
@@ -108,6 +111,7 @@
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js"></script>
     <!-- NProgress JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
 
@@ -115,27 +119,27 @@
     @livewireScripts
     @stack('scripts')
     <script>
-        $(document).ready(function () {
-            NProgress.start(); 
+        $(document).ready(function() {
+            NProgress.start();
             NProgress.done();
-    
-            $(window).on("load", function () {
-                NProgress.done(); 
-            });
 
-            $(document).ajaxStart(function () {
-                NProgress.start();
-            });
-
-            $(document).ajaxStop(function () {
+            $(window).on("load", function() {
                 NProgress.done();
             });
 
-            setTimeout(function () {
+            $(document).ajaxStart(function() {
+                NProgress.start();
+            });
+
+            $(document).ajaxStop(function() {
+                NProgress.done();
+            });
+
+            setTimeout(function() {
                 if (NProgress.isStarted()) {
                     NProgress.done();
                 }
-            }, 1000); 
+            }, 1000);
         });
     </script>
 </body>

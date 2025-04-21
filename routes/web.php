@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\TravelAttendanceController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\TravelUserController;
 use App\Models\TravelUser;
@@ -18,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/travels', [TravelController::class, 'show'])->name('travels');
     Route::get('/tracking', [TrackingController::class, 'show'])->name('tracking');
     Route::get('/travel-users', [TravelUserController::class, 'show'])->name('travel-users');
+    Route::get('/travel-attendance', [TravelAttendanceController::class, 'show'])->name('travel-attendance');
 });
 
 Route::get('/login', [AuthController::class, 'show'])->name('login');

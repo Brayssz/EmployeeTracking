@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\TravelUser;
 use App\Models\Travel;
 use App\Models\Department;
+use App\Models\DailyAttendance;
 
 class APIController extends Controller
 {
@@ -108,14 +109,180 @@ class APIController extends Controller
         $travelUser->update([
             'coordinates' => $request->input('coordinates'),
             'remarks' => $request->input('remarks'),
+            'status' => 'present',
             'time_recorded' => now(),
             'date_recorded' => now(),
         ]);
+
+        $attendance = DailyAttendance::updateOrCreate(
+            [
+                'user_id' => $request->input('travel_user_id'),
+                'date' => now()->format('Y-m-d'),
+            ],
+            [
+                'status' => 'ontravel',
+            ]
+        );
 
         return response()->json([
             'status' => 'success',
             'message' => 'Travel recorded successfully',
             'data' => [$travelUser]
+        ]);
+    }
+
+    public function setStatus(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'status' => 'required|string',
+        ]);
+
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found',
+                'data' => []
+            ], 404);
+        }
+
+        $user->update(['status' => $request->input('status')]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User status updated successfully',
+            'data' => [$user]
+        ]);
+    }
+
+    public function recordTimeIn(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+        ]);
+
+        $attendance = DailyAttendance::updateOrCreate(
+            [
+                'user_id' => $request->input('user_id'),
+                'date' => now()->format('Y-m-d'),
+            ],
+            [
+                'check_in' => now(),
+                'status' => 'present',
+            ]
+        );
+
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found',
+                'data' => []
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Daily attendance recorded successfully',
+            'data' => [$user]
+        ]);
+    }
+
+    public function recordTimeOut(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+        ]);
+
+        $attendance = DailyAttendance::updateOrCreate(
+            [
+                'user_id' => $request->input('user_id'),
+                'date' => now()->format('Y-m-d'),
+            ],
+            [
+                'check_out' => now(),
+            ]
+        );
+
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found',
+                'data' => []
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Daily attendance recorded successfully',
+            'data' => [$user]
+        ]);
+    }
+
+    public function clearStatus(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+        ]);
+
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found',
+                'data' => []
+            ], 404);
+        }
+
+        $user->update(['status' => 'active']);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User status cleared successfully',
+            'data' => [$user]
+        ]);
+    }
+
+    public function recordCurrentLocation(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        $user = User::find($request->input('user_id'));
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found',
+                'data' => []
+            ], 404);
+        }
+
+        $location = $user->userLocation()->updateOrCreate(
+            [
+                'user_id' => $request->input('user_id'),
+            ],
+            [
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude'),
+            ]
+        );
+
+        $user = User::find($request->input('user_id'));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User location recorded successfully',
+            'data' => [$user]
         ]);
     }
 }

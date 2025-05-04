@@ -18,10 +18,146 @@
 
     @vite(['resources/css/mdb.min.css', 'resources/css/mdb.rtl.min.css'])
 
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .nav-link:hover span,
+        .nav-link:hover i {
+            color: white !important;
+        }
+    </style>
+
 </head>
 
 <body>
-    <!-- Navbar -->
+    <div class="d-flex justify-content-between align-items-center mr-2 bg-light">
+        <div></div>
+        <div id="datetime" class="text-muted"></div>
+    </div>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-body-tertiary vh-100% p-3" style="width: 250px;">
+            <div class="text-center mb-4">
+                <img src="{{asset('img/logo.png')}}" height="135px" alt="Logo"
+                    loading="lazy" />
+                <i class="d-flex text-center justify-content-center font-fira-sans">CHEDROXII</i>
+            </div>
+            <hr>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'dashboard') active @endif"
+                        href="dashboard">
+                        <i class="fa fa-th-large me-2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'tracking') active @endif"
+                        href="tracking">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>Location</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'users') active @endif"
+                        href="users"><i class="fas fa-users me-2"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'departments') active @endif"
+                        href="departments">
+                        <i class="fas fa-building me-2"></i>
+                        <span>Departments</span></a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'travels') active @endif"
+                        href="travels">
+                        <i class="fas fa-plane me-2"></i>
+                        <span>Travels</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'travel-users') active @endif"
+                        href="travel-users">
+                        <i class="fas fa-users me-2"></i>
+                        <span>Travel Participants</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'travel-attendance') active @endif"
+                        href="travel-attendance">
+                        <i class="far fa-calendar-check me-2"></i>
+                        <span>Travel Attendance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 @if (Route::currentRouteName() == 'daily-attendance') active @endif"
+                        href="daily-attendance">
+                        <i class="far fa-calendar-check me-2"></i>
+                        <span>Daily Attendance</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-primary m-2 d-flex align-items-center justify-content-start border border-b-blue-700 w-100">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            {{-- <hr>
+            <div class="position-fixed bottom-0 end-0 p-3">
+                <div class="dropdown">
+                    @php
+                        $user = Auth::user();
+                        $initials = strtoupper(substr($user->name, 0, 1)) . strtoupper(substr(strrchr($user->name, ' '), 1, 1));
+                    @endphp
+                    <a data-mdb-dropdown-init
+                        class="dropdown-toggle d-flex align-items-center hidden-arrow rounded-circle overflow-hidden"
+                        href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false"
+                        style="width: 40px; height: 40px;">
+                        <div class="rounded-circle text-white d-flex justify-content-center align-items-center border border-white"
+                            style="width: 40px; height: 40px; background-color: #007bff; font-weight: bold; font-size: 0.75rem;">
+                            {{ $initials }}
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                        <li><a class="dropdown-item" href="#">My profile</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div> --}}
+
+        </nav>
+        <!-- Sidebar -->
+
+        <!-- Content Area -->
+        <div class="flex-grow-1 p-4">
+            @yield('content')
+        </div>
+    </div>
+    {{-- <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
         <!-- Container wrapper -->
         <div class="container-fluid mx-5">
@@ -102,7 +238,7 @@
 
     <div class="page-wrapper">
         @yield('content')
-    </div>
+    </div> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

@@ -4,24 +4,30 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\TravelUser;
+use App\Models\Travel;
+use App\Models\UserLocation;
 
 class Tracking extends Component
 {
 
-    public function getTravelAttendance($travel_id) 
+    public function getTravelAttendance($travel_id)
     {
-        $travel_user = TravelUser::query()->whereNotNull('coordinates')->with('user');
+        $user_locations = UserLocation::query()
+            ->whereHas('user', function ($query) {
+                $query->whereNotIn('status', ['onleave']);
+            })
+            ->with('user');
 
-        if ($travel_id) {
-            $travel_user = $travel_user->where('travel_id', $travel_id);
-        }
+        // if ($travel_id) {
+        //     $user_locations = $user_locations->where('travel_id', $travel_id);
+        // }
 
-        return $travel_user->get()->map(function ($item) {
-            $coordinates = explode(',', $item->coordinates);
+        return $user_locations->get()->map(function ($item) {
             return [
-            'name' => $item->user->name ?? null,
-            'lat' => isset($coordinates[0]) ? (float) trim($coordinates[0]) : null,
-            'lng' => isset($coordinates[1]) ? (float) trim($coordinates[1]) : null,
+                'name' => $item->user->name ?? null,
+                'lat' => $item->latitude ?? null,
+                'lng' => $item->longitude ?? null,
+                'status' => $item->user->status ?? null,
             ];
         });
     }

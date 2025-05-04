@@ -72,6 +72,28 @@ return new class extends Migration
             $table->foreign('travel_id')->references('travel_id')->on('travels')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
+        Schema::create('daily_attendance', function (Blueprint $table) {
+            $table->id('attendance_id');
+            $table->unsignedBigInteger('user_id');
+            $table->date('date');
+            $table->time('check_in')->nullable();
+            $table->time('check_out')->nullable();
+            $table->string('status')->default('present');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('user_locations', function (Blueprint $table) {
+            $table->id('location_id');
+            $table->unsignedBigInteger('user_id');
+            $table->decimal('latitude', 10, 7);
+            $table->decimal('longitude', 10, 7);
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**

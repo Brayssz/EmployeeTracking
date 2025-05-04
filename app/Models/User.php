@@ -53,4 +53,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(TravelUser::class, 'user_id');
     }
+
+    public function dailyAttendance()
+    {
+        return $this->hasMany(DailyAttendance::class, 'user_id');
+    }
+    public function userLocation()
+    {
+        return $this->hasMany(UserLocation::class, 'user_id');
+    }
 }

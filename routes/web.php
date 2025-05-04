@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DailyAttendanceController;
 use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -20,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tracking', [TrackingController::class, 'show'])->name('tracking');
     Route::get('/travel-users', [TravelUserController::class, 'show'])->name('travel-users');
     Route::get('/travel-attendance', [TravelAttendanceController::class, 'show'])->name('travel-attendance');
+    Route::get('/daily-attendance', [DailyAttendanceController::class, 'show'])->name('daily-attendance');
 });
 
 Route::get('/login', [AuthController::class, 'show'])->name('login');

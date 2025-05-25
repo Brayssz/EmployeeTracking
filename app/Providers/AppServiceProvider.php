@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\User;
 use App\Models\DailyAttendance;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,22 +24,24 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->booted(function () {
-            $now = Carbon::now();
-            $today = Carbon::today();
+            if (Schema::hasTable('users')) {
+                $now = Carbon::now();
+                $today = Carbon::today();
 
-            if ($now->hour >= 17) {
-                $users = User::where('status', 'active')
-                    ->whereDoesntHave('dailyAttendance', function ($query) use ($today) {
-                        $query->whereDate('date', $today);
-                    })
-                    ->get();
+                if ($now->hour >= 17) {
+                    $users = User::where('status', 'active')
+                        ->whereDoesntHave('dailyAttendance', function ($query) use ($today) {
+                            $query->whereDate('date', $today);
+                        })
+                        ->get();
 
-                foreach ($users as $user) {
-                    DailyAttendance::create([
-                        'user_id' => $user->id,
-                        'date' => $today,
-                        'status' => 'absent',
-                    ]);
+                    foreach ($users as $user) {
+                        DailyAttendance::create([
+                            'user_id' => $user->id,
+                            'date' => $today,
+                            'status' => 'absent',
+                        ]);
+                    }
                 }
             }
         });

@@ -1,0 +1,36 @@
+{
+  "resources/css/mdb.min.css": {
+    "file": "assets/mdb-B7AfNSJc.css",
+    "src": "resources/css/mdb.min.css",
+    "isEntry": true
+  },
+  "resources/css/mdb.rtl.min.css": {
+    "file": "assets/mdb.rtl-CJdjRpHA.css",
+    "src": "resources/css/mdb.rtl.min.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-C9HuHcxW.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/bootstrap.js": {
+    "file": "assets/bootstrap-DspuE8pW.js",
+    "name": "bootstrap",
+    "src": "resources/js/bootstrap.js",
+    "isEntry": true
+  },
+  "resources/js/mdb.es.min.js": {
+    "file": "assets/mdb.es.min-5wYv7zVH.js",
+    "name": "mdb.es.min",
+    "src": "resources/js/mdb.es.min.js",
+    "isEntry": true
+  },
+  "resources/js/mdb.umd.min.js": {
+    "file": "assets/mdb.umd.min-CHJvPS0S.js",
+    "name": "mdb.umd.min",
+    "src": "resources/js/mdb.umd.min.js",
+    "isEntry": true
+  }
+}

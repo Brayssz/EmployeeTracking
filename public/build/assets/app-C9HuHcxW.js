@@ -1,0 +1,1 @@
+$(document).ready(function(){NProgress.start(),$(window).on("load",function(){NProgress.done()}),$(document).ajaxStart(function(){NProgress.start()}),$(document).ajaxStop(function(){NProgress.done()}),$(document).on("livewire:load",function(){Livewire.hook("message.sent",function(){NProgress.start()}),Livewire.hook("message.received",function(){NProgress.done()})})});

@@ -40,10 +40,11 @@ class AppServiceProvider extends ServiceProvider
                             'user_id' => $user->id,
                             'date' => $today,
                             'status' => 'absent',
-                        ]);
+                        ]);     
                     }
                 }
             }
         });
     }
 }
+    

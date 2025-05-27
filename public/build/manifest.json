@@ -1,4 +1,9 @@
 {
+  "resources/css/app.css": {
+    "file": "assets/app-yHj1kOlr.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
   "resources/css/mdb.min.css": {
     "file": "assets/mdb-B7AfNSJc.css",
     "src": "resources/css/mdb.min.css",

@@ -9,7 +9,12 @@ class AttendanceLocation extends Component
 {
     public function getTravelAttendance($travel_id)
     {
-        $travel_user = TravelUser::query()->whereNotNull('coordinates')->with('user')->where('id', $travel_id);
+        $travel_user = TravelUser::query()
+            ->whereNotNull('coordinates')
+            ->with(['user' => function ($query) {
+                $query->where('status', 'active');
+            }])
+            ->where('id', $travel_id);
 
         return $travel_user->get()->map(function ($item) {
             $coordinates = explode(',', $item->coordinates);

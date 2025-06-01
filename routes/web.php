@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     Route::get('/users', [UserController::class, 'show'])->name('users');
     Route::get('/departments', [DepartmentController::class, 'show'])->name('departments');
     Route::get('/travels', [TravelController::class, 'show'])->name('travels');

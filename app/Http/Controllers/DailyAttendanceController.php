@@ -11,7 +11,9 @@ class DailyAttendanceController extends Controller
 {
     public function show(Request $request)
     {
-        $query = DailyAttendance::query();
+        $query = DailyAttendance::whereHas('user', function ($q) {
+            $q->where('status', 'active');
+        });
 
         if ($request->filled('search')) {
             $query->where('status', 'like', '%' . $request->search . '%')
@@ -36,7 +38,7 @@ class DailyAttendanceController extends Controller
             });
         }
 
-        $users = User::all();
+        $users = User::where('status', 'active')->get();
         $departments = Department::where('status', 'active')->get();
         $dailyAttendances = $query->paginate(10);
 
